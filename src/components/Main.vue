@@ -16,7 +16,7 @@
         <td>{{index}}</td>
         <td>{{todo.text}}</td>
         <td><button>{{todo.done}}</button></td>
-        <td><button>削除</button></td>
+        <td><button @click="deleteTask(index)">削除</button></td>
       </tr>
     </table>
     <h2>新規タスクの追加</h2>
@@ -37,6 +37,9 @@ export default {
     addTask() {
       this.todos.push({ text: this.addText, done: '作業中' });
       this.addText = "";
+    },
+    deleteTask(index) {
+      this.todos.splice(index, 1);
     },
   },
 };
