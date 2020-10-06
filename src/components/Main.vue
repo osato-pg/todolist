@@ -15,7 +15,7 @@
       <tr v-for="(todo, index) in todos" :key="todo">
         <td>{{index}}</td>
         <td>{{todo.text}}</td>
-        <td><button>{{todo.done}}</button></td>
+        <td><button @click="doneTask(index)">{{todo.done}}</button></td>
         <td><button @click="deleteTask(index)">削除</button></td>
       </tr>
     </table>
@@ -41,6 +41,14 @@ export default {
     deleteTask(index) {
       this.todos.splice(index, 1);
     },
+    doneTask(index) {
+      if(this.todos[index].done==='作業中'){
+        this.todos[index].done='完了';
+      }else {
+        this.todos[index].done='作業中';
+      }
+      
+    }
   },
 };
 </script>
