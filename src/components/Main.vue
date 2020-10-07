@@ -2,9 +2,9 @@
   <div>
     <h1>To Do リスト</h1>
     <form>
-      <label v-for="label in options" :key="label.value">
-        <input type="radio" v-model="current" v-bind:value="label.value" />
-        {{ label.label }}
+      <label v-for="option in options" :key="option.label">
+        <input type="radio" v-model="current" v-bind:value="option.label" />
+        {{ option.label }}
       </label>
     </form>
     <table>
@@ -17,7 +17,7 @@
         <td>{{ index }}</td>
         <td>{{ todo.text }}</td>
         <td>
-          <button @click="stateTask(index)">{{ labels[todo.state] }}</button>
+          <button @click="stateTask(index)">{{ todo.state }}</button>
         </td>
         <td><button @click="deleteTask(index)">削除</button></td>
       </tr>
@@ -34,39 +34,34 @@ export default {
     return {
       addText: "",
       todos: [],
-      current: -1,
+      current: "すべて",
       options: [
-        { value: -1, label: "すべて" },
-        { value: 0, label: "作業中" },
-        { value: 1, label: "完了" },
+        {label: "すべて" },
+        {label: "作業中" },
+        {label: "完了" },
       ],
     };
   },
   computed: {
     filteredTodos() {
       return this.todos.filter(function (todo) {
-        return this.current < 0 ? true : this.current === todo.state;
+        return this.current === "すべて" ? true : this.current === todo.state;
       }, this);
-    },
-    labels() {
-      return this.options.reduce(function (a, b) {
-        return Object.assign(a, { [b.value]: b.label });
-      }, {});
     },
   },
   methods: {
     addTask() {
-      this.todos.push({ text: this.addText, state: 0 });
+      this.todos.push({ text: this.addText, state: "作業中" });
       this.addText = "";
     },
     deleteTask(index) {
       this.todos.splice(index, 1);
     },
     stateTask(index) {
-      if (this.todos[index].state === 0) {
-        this.todos[index].state = 1;
+      if (this.todos[index].state === "作業中") {
+        this.todos[index].state = "完了";
       } else {
-        this.todos[index].state = 0;
+        this.todos[index].state = "作業中";
       }
     },
   },
